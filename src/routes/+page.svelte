@@ -3,7 +3,11 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card';
+
+	import { toggleMode } from 'mode-watcher';
 </script>
+
+<Button onclick={toggleMode}>Toggle Mode</Button>
 
 <div class="flex h-screen items-center justify-center">
 	<Card.Root>
