@@ -48,6 +48,7 @@
 		"zod": "^3.24.1"
 	},
 	"dependencies": {
-		"@tailwindcss/typography": "^0.5.15"
+		"@tailwindcss/typography": "^0.5.15",
+		"pocketbase": "^0.25.0"
 	}
 }
