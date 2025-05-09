@@ -6,7 +6,6 @@ export const formSchema = z.object({
 		.nonempty({ message: 'Gib bitte einen Betrag ein.' })
 		.refine(
 			(val) => {
-				// Leerstrings sind schon abgefangen, also hier parse
 				const normalized = val.replace(',', '.').trim();
 				const num = Number(normalized);
 				return !isNaN(num);

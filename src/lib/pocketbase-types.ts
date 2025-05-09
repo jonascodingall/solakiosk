@@ -98,7 +98,7 @@ export type KidsRecord = {
 	id: string
 	lastname?: string
 	nfcid?: string
-	start_credit?: number
+	startCredit?: number
 	updated?: IsoDateString
 }
 
