@@ -49,5 +49,8 @@
 		"vaul-svelte": "^1.0.0-next.7",
 		"vite": "^6.2.6",
 		"zod": "^3.24.4"
+	},
+	"dependencies": {
+		"pocketbase": "^0.26.0"
 	}
 }
