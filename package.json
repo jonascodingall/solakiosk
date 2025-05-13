@@ -52,6 +52,7 @@
 		"zod": "^3.24.4"
 	},
 	"dependencies": {
+		"@tanstack/table-core": "^8.21.3",
 		"pocketbase": "^0.26.0"
 	}
 }
