@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import type { PageProps } from './$types';
 	import type { KidsResponse } from '$lib/pocketbase-types';
 	import KidsForm from '$lib/components/features/kids-form/kids-form.svelte';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { enhance } from '$app/forms';
+	import KidsTable from '$lib/components/features/kids-table/kids-table.svelte';
+	import { columns } from '$lib/components/features/kids-table/columns';
 
 	let { data }: PageProps = $props();
 
@@ -37,8 +39,9 @@
 			clearFormData();
 			editing = false;
 		}}
+		class={buttonVariants({ variant: 'outline' })}
 	>
-		Damn
+		Create
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
@@ -52,33 +55,4 @@
 	</Dialog.Content>
 </Dialog.Root>
 
-<table class="mt-8 w-full border-collapse border border-gray-200">
-	<thead>
-		<tr>
-			<th class="border border-gray-200 px-4 py-2">Vorname</th>
-			<th class="border border-gray-200 px-4 py-2">Nachname</th>
-			<th class="border border-gray-200 px-4 py-2">Start Kredit</th>
-			<th class="border border-gray-200 px-4 py-2">NFC-ID</th>
-			<th class="border border-gray-200 px-4 py-2">Aktionen</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each data.kids as kid}
-			<tr>
-				<td class="border border-gray-200 px-4 py-2">{kid.firstname}</td>
-				<td class="border border-gray-200 px-4 py-2">{kid.lastname}</td>
-				<td class="border border-gray-200 px-4 py-2">{kid.startCredit}</td>
-				<td class="border border-gray-200 px-4 py-2">{kid.nfcid}</td>
-				<td class="border border-gray-200 px-4 py-2">
-					<Button type="button" variant="outline" onclick={() => editDialog(kid)}>
-						Bearbeiten
-					</Button>
-					<form method="POST" action="?/delete" class="inline" use:enhance>
-						<input type="hidden" name="id" value={kid.id} />
-						<Button type="submit" variant="destructive" class="ml-2">Löschen</Button>
-					</form>
-				</td>
-			</tr>
-		{/each}
-	</tbody>
-</table>
+<KidsTable data={data.kids} {columns} {editDialog} />

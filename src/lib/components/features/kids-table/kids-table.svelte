@@ -1,19 +1,20 @@
-<script lang="ts" generics="TData, TValue">
+<script lang="ts" generics="TValue">
 	import { type ColumnDef, getCoreRowModel } from '@tanstack/table-core';
 	import { createSvelteTable, FlexRender } from '$lib/components/ui/data-table/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import { buttonVariants } from '$lib/components/ui/button';
-	import SquarePen from '@lucide/svelte/icons/square-pen';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import type { Snippet } from 'svelte';
+	import { Button } from '$lib/components/ui/button';
+	import { enhance } from '$app/forms';
+	import type { KidsResponse } from '$lib/pocketbase-types';
 
-	type DataTableProps<TData, TValue> = {
-		columns: ColumnDef<TData, TValue>[];
-		data: TData[];
-		updateForm: any;
+	type DataTableProps<KidsResponse, TValue> = {
+		columns: ColumnDef<KidsResponse, TValue>[];
+		data: KidsResponse[];
+		children?: Snippet;
+		editDialog: (kid: KidsResponse) => void;
 	};
 
-	let { data, columns, updateForm }: DataTableProps<TData, TValue> = $props();
+	let { data, columns, children, editDialog }: DataTableProps<KidsResponse, TValue> = $props();
 
 	const table = createSvelteTable({
 		get data() {
@@ -51,25 +52,13 @@
 						</Table.Cell>
 					{/each}
 					<Table.Cell>
-						<Dialog.Root>
-							<Dialog.Trigger class={buttonVariants({ variant: 'ghost', size: 'icon' })}>
-								<SquarePen />
-							</Dialog.Trigger>
-							<Dialog.Content>
-								<Dialog.Content>
-									<Dialog.Header>
-										<Dialog.Title>Kind bearbeiten</Dialog.Title>
-										<Dialog.Description>
-											Alten Wert durch neuen ersetzen und speichern.
-										</Dialog.Description>
-									</Dialog.Header>
-									<div>REAL CONTENT</div>
-									<Dialog.Footer>
-										<Button>Submit</Button>
-									</Dialog.Footer>
-								</Dialog.Content>
-							</Dialog.Content>
-						</Dialog.Root>
+						<Button type="button" variant="outline" onclick={() => editDialog(row.original)}
+							>Bearbeiten</Button
+						>
+						<form method="POST" action="?/delete" class="inline" use:enhance>
+							<input type="hidden" name="id" value={row.original.id} />
+							<Button type="submit" variant="destructive" class="ml-2">Löschen</Button>
+						</form>
 					</Table.Cell>
 				</Table.Row>
 			{:else}
